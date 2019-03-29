@@ -13,6 +13,14 @@ public List<List<String>> solveNQueens(int n) {
 	        Solution.backTracking(result,new ArrayList<String>(8),dic,0,0,n);
 	        return result;
 	    }
+	    public static boolean isValid(List<String> cacheList, int inputIndex, int level) {
+	    	if(cacheList.isEmpty()) return true;
+	    	for(int i=0;i<cacheList.size();i++) {
+	    		int index = cacheList.get(i).indexOf("Q");
+	    		if(index+(level-i)==inputIndex||index-(level-i)==inputIndex) return false;
+	    	}
+	    	return true;
+	    }
 	    public static void backTracking
 	        (List<List<String>> result, List<String> cacheList, String[] dic,int level, int nextPos,int n){
 	        if(level == n){
@@ -21,12 +29,13 @@ public List<List<String>> solveNQueens(int n) {
 	        else {
 	            for(int i = nextPos;i<n;i++){
 	                String singleRow = dic[i];
-	                if(!cacheList.contains(singleRow))cacheList.add(singleRow);
-	                else return;
-	                Solution.backTracking(result,cacheList,dic,level+1,(i+2)%n,n);
+	                if(!cacheList.contains(singleRow)&&Solution.isValid(cacheList, i, level))
+	                	cacheList.add(singleRow);
+	                else continue;
+	                Solution.backTracking(result,cacheList,dic,level+1,0,n);
 	                cacheList.remove(cacheList.size()-1);
 	            }
 	        }
-	    }	
+	    }
 ```
 
