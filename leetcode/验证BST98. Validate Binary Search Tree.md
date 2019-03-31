@@ -23,26 +23,30 @@ Output: true
  * }
  */
 class Solution {
-    public boolean isValidBST(TreeNode root) {
-        List<Integer> value = new ArrayList<Integer>();
-        if(root==null) return true;
-        Solution.iterate(root,value);
-        int size = value.size();
-        for(int i=0;i<size-1;i++){
-            if(value.get(i)>=value.get(i+1)) return false;
+    class Validation{
+        boolean v;
+        Validation(){
+            this.v = true;
         }
-        return true;
     }
-    public static void iterate(TreeNode root, List value){
-        if(root == null) return;
+    public boolean isValidBST(TreeNode root) {
+        if(root==null) return true;
+        ArrayList<Integer> value = new ArrayList<Integer>(1);
+        Validation validation = new Validation();
+        Solution.iterate(root,value,validation);
+        return validation.v;
+    }
+    public static void iterate(TreeNode root, ArrayList<Integer> value, Validation validation){
         if(root.left!=null){
-            Solution.iterate(root.left, value);
-            //value.add(root.left.val;)
+            Solution.iterate(root.left, value,validation);
         }
-        value.add(root.val);
+        if(value.isEmpty()) value.add(root.val);
+        else {
+            if(value.get(0)>=root.val) validation.v = false;
+            else value.set(0,root.val);
+        }
         if(root.right!=null){
-            Solution.iterate(root.right, value);
-            //value.add(root.right.val);
+            Solution.iterate(root.right, value,validation);
         }
     }
 }
