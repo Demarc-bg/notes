@@ -165,14 +165,15 @@ class test{
 1. instance of VS getClass()
 
 ```java
-System.out.println(t1 instanceof Object);//true 
 Object t1 = new test();
+System.out.println(t1 instanceof Object);//true 
 System.out.println(t1.getClass()==o.getClass());//false 
 ```
 
 instanceof：
 
 - 如果t1属于Object类型 或Object类的子类类型 则返回true
+- 有点类似于子类是父类的一个实例，就像可以用父类类型的句柄去指向一个子类的引用
 
 getClass()：
 
@@ -189,9 +190,17 @@ System.out.println(o.getClass());//class java.lang.Object
 
 getClass() 和 .class返回值相同，不过还是有不同点的：
 
-- 如果有对象的引用变量，一般使用o.getClass()
-- 如果有对象的类型，一般使用Object.class
-- 两者的返回并没有明显差别，但是getClass()会依赖JVM平台，调用invokevirtual方法来获取类型值，.class直接根据静态加载的类信息返回，因此.class返回的更快
+- 持有对象的引用变量，一般使用o.getClass()
+- 持有对象的类型，一般使用Object.class
+- 两者的返回并没有明显差别，但是getClass()会依赖JVM平台，调用invokevirtual方法来获取类型值，.class直接据静态加载的类信息返回，因此.class返回的更快
+
+
+
+### 位运算符
+
+- \>> \<<	表示忽略符号位，其余位移动运算
+- \>>>    表示包括符号位的位移运算
+- 注意：在计算中都是以补码的形式进行的
 
 
 

@@ -27,7 +27,7 @@ ArrayList实现了List接口，实现了动态数组，约等于C++的Vector，�
 
 #### contains()
 
-contains()与HashMap的containsKey相比，效率低很多，因为contains()会遍历整个数组，复杂度达到了O(n)，而HashMap散列key的方法，主要的开销在遍历散列后bucket里的拉链，复杂度为O(1)
+contains()与HashMap的containsKey相比，效率低很多，因为contains()会遍历整个数组，复杂度达到了O(n)，而HashMap散列key的方法，主要的开销在遍历散列后bucket里的拉链，复杂度为O(N/M)
 
 #### 两个ArrayList 大小比较并更换引用
 
@@ -59,7 +59,39 @@ HashMap<K,V> map  = new HashMap<K,V>();
 
 HashMap：key-value模式，key、value都必须为类，基本数据类型需要声明成包装类，put的时候传入基本数据类型会自动打包。
 
+- 构造方法HashMap(int initialCapacity, float loadFactor)
 
+  ```java
+  public HashMap(int initialCapacity, float loadFactor) {
+          if (initialCapacity < 0)
+              throw new IllegalArgumentException("Illegal initial capacity: " +
+                                                 initialCapacity);
+          if (initialCapacity > MAXIMUM_CAPACITY)
+              initialCapacity = MAXIMUM_CAPACITY;
+      	/*
+      		note: loadFactor is final type, so can't modify after setting.
+          */
+          if (loadFactor <= 0 || Float.isNaN(loadFactor))
+              throw new IllegalArgumentException("Illegal load factor: " +
+                                                 loadFactor);
+          this.loadFactor = loadFactor;
+          this.threshold = tableSizeFor(initialCapacity);
+      }
+  ```
+  ```java
+  final V putVal()
+  ```
+
+  - HashMap是通过tab[hash&(n-1)]来进行hash分配的，因此同一个桶内的key-value元素hash值不一定相同。
+  - 这种机制提供了一种机会，当扩容的时候，只需要根据多增的一个bit与hash进行与运算(&)，决定元素分配在新hash表的原桶index处 或 (原桶Index+新增桶数)处。这个方法有一个好处，就是无需再进行hash运算
+  - HashMap默认插入的key属于immutable类型的， 插入后不可以更改，否则可能会无法映射到响应的Node。
+
+- ```java
+  final Node<K,V>[] resize()
+  ```
+
+  - 当key-value数量大于size*loadFactor，HashMap就会进行rehash，也就是扩容。
+  - 进行resize()扩容时，需要遍历hash表中所有元素，十分耗时，因此尽量避免扩容。也就是说在构建HashMap时，initialCapacity和loadFactor的设置十分重要，既要防止扩容，又要避免申请的Capacity或者loadFactor过大浪费空间。
 
 ### StringBuffer
 
