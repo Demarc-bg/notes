@@ -1,20 +1,31 @@
 # java 基础
 
+### 三大特性
+
+#### 封装（面向抽象编程）
+
+#### 继承
+
+#### 多态
+
+- 主要通过子类重写、类内部重载来实现多态
+- 还可以通过动态绑定来实现。比如 可以用父类类型句柄指向一个子类的对象，这个句柄可以引用父类所有的属性、父类所有未被子类重写的方法、子类所有属性和方法。这其实既提供了父类的共性，又保证了子类的特异性
+
 ### 关键字
 
-1. final
+1. **final**
 
 - 对于数据：final使数据不变
 
 * 对于引用：不可以改变引用的对象（地址）
 * 对于方法：声明方法不能被子类重写
 
-2. static
+2. **static**
 
 * 静态变量：又称为类变量，也就是说这个变量属于类的。类所有的实例都共享静态变量，可以直接通过类名来访问它。静态变量在内存中只存在一份。
 * 实例变量：每创建一个实例就会产生一个实例变量，它与该实例共存亡
 
-3. native  (copy from Stack OverFlow)
+3. **native**  (copy from Stack OverFlow)
 
 - You need to call a library from Java that is written in other language.
 - You need to access system or hardware resources that are only reachable from the other language (typically C). 
@@ -99,7 +110,8 @@ IOC为相互依赖的组件提供抽象，通过依赖注入的方式进行控�
 
 #### 类内部加载顺序
 
-- 先加载内部static代码块。
+- 加载类内部的静态属性、static代码块(按代码的顺序进行加载)
+
 - 后加载构造方法：
   - 构造代码块：在类中单独的语句块{ }，将在该语句块所在类构造函数内执行且首先执行
 
@@ -160,12 +172,14 @@ class test{
 }	
 ```
 
+------
+
 ### instanceof/.getClass()/.class
 
 1. instance of VS getClass()
 
 ```java
-Object t1 = new test();
+test t1 = new test();
 System.out.println(t1 instanceof Object);//true 
 System.out.println(t1.getClass()==o.getClass());//false 
 ```
@@ -173,12 +187,12 @@ System.out.println(t1.getClass()==o.getClass());//false
 instanceof：
 
 - 如果t1属于Object类型 或Object类的子类类型 则返回true
-- 有点类似于子类是父类的一个实例，就像可以用父类类型的句柄去指向一个子类的引用
+- 可以用父类类型的句柄去指向一个子类的引用
 
 getClass()：
 
 - 如果对象的getClass()方法返回值相等（即返回类型相同），则返回true
-- 值得注意的是，getClass()方法返回的是running time type of t1，即test type
+- 值得注意的是，getClass()方法返回的是running time type of t1，与句柄类型无关(句柄有可能是父类类型），即test type
 
 2. getClass() VS class
 
@@ -194,12 +208,12 @@ getClass() 和 .class返回值相同，不过还是有不同点的：
 - 持有对象的类型，一般使用Object.class
 - 两者的返回并没有明显差别，但是getClass()会依赖JVM平台，调用invokevirtual方法来获取类型值，.class直接据静态加载的类信息返回，因此.class返回的更快
 
-
+------
 
 ### 位运算符
 
 - \>> \<<	表示忽略符号位，其余位移动运算
-- \>>>    表示包括符号位的位移运算
+- \>>>    表示带符号位的位移运算
 - 注意：在计算中都是以补码的形式进行的
 
 
