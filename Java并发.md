@@ -75,4 +75,9 @@ public class DDbug implements Runnable{
 
 #### java三种高并发https://blog.csdn.net/java_xth/article/details/81162088
 
-### 
+### volatile
+
+- 有序性：因为java内存模型中，会允许编译器和处理器对指令进行重排序优化，在单线程下不会受影响，但是会影响在多线程情况下并发执行的正确性
+
+- volatile修饰的变量涉及到happens-before原则：多线程环境下，读变量操作必须在写变量刷新写回到工作内存后完成。
+
